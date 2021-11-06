@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const campsiteRouter = require('./routes/campsiteRouter');
+const promotionsRouter = require('./routes/promotionsRouter')
+const partnersRouter = require('./routes/partnersRouter')
 
 const hostname = 'localhost';
 const port = 3000;
@@ -10,29 +12,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use('/campsites', campsiteRouter);
+app.use('/promotions', promotionsRouter);
+app.use('/partners', partnersRouter);
 
-app.all('/campsites', (req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text-plain');
-    next();
-});
-
-app.get('/campsites', (req, res) => {
-    res.end('Will send all the campsites to you');
-});
-
-app.post('/campsites', (req, res) => {
-    res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);
-});
-
-app.put('/campsites', (req, res) => {
-    res.statusCode = 403;
-    res.end('PUT operation not supported on /campsites');
-});
-
-app.delete('/campsites', (req, res) => {
-    res.end('Deleting all campsites');
-});
 
 app.use(express.static(__dirname + '/public'));
 
